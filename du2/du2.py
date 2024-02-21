@@ -15,11 +15,13 @@ class Agent:
 
 
 class Population:
-    def __init__(self, size, agent_count, diam):
+    def __init__(self, size, agent_count, diam, threshold):
         self.size = size
         self.agent_count = agent_count
         self.population = []
         self.diam = diam
+        self.count = 0
+        self.threshold = threshold
 
     def initialize(self):
         for i in range(self.agent_count):
@@ -51,16 +53,19 @@ class Population:
     def step(self):
         x = None
         y = None
+        self.count = 0
         while True:
             x = random.randint(0, self.size - 1)
             y = random.randint(0, self.size - 1)
             is_free = True
             for other in self.population:
+                if other.rat < self.threshold:
+                    self.count = self.count + 1
                 if x == other.x and y == other.y:
                     is_free = False
             if is_free:
                 break
-        a = self.chose(0.5)
+        a = self.chose(self.threshold)
         if a is None:
             return
         a.x = x
@@ -79,19 +84,29 @@ def plot(popul, indx):
         else:
             x_b.append(agent.x)
             y_b.append(agent.y)
-    plt.scatter(x_a, y_a, color='red')
-    plt.scatter(x_b, y_b, color='blue')
+    plt.scatter(x_a, y_a, color='red', label="a")
+    plt.scatter(x_b, y_b, color='blue', label="b")
     plt.legend()
     plt.savefig(f"./PLT/plots_{indx}.png")
     plt.close()
 
 
 if __name__ == "__main__":
-    pop = Population(10, 50, 5)
+    pop = Population(50, 600, 10, 0.5)
+    iters = 1000
     pop.initialize()
     pop.rate()
     pop.step()
-    for i in range(100):
+    counts = []
+    for i in range(iters):
         pop.rate()
         pop.step()
-        plot(pop, i)
+        counts.append(pop.count)
+        if i % 10 == 0:
+            plot(pop, i)
+    plot(pop, iters - 1)
+    plt.plot(counts)
+    plt.savefig("./PLT/line.png")
+
+## vysledny graf hustší
+## pocet spokojenych / nespokojenych v case
