@@ -23,17 +23,17 @@ rows = [
 ]
 
 
-def get_random_age():
+def get_random_age() -> int:
     return math.floor(config["max_age"] * random.random()) + 1
 
 
-def get_random_name():
+def get_random_name() -> dict:
     last_name = random.choice(enums.enum_last_names)
     first_name = random.choice(enums.enum_first_names)
     return {"first_name": first_name, "last_name": last_name}
 
 
-def get_random_id(prev):
+def get_random_id(prev: str) -> str:
     letters = string.ascii_lowercase
     rand_id = str(prev)
     while id == prev:
@@ -41,7 +41,7 @@ def get_random_id(prev):
     return rand_id
 
 
-def step(row):
+def step(row: dict) -> dict:
     next_row = {}
     if isinstance(row, dict):
         for key in row.keys():
@@ -58,12 +58,12 @@ def step(row):
     return next_row
 
 
-def print_row(row, index):
+def print_row(row: dict, index: int):
     print("")
     print(f"Row {index}: {row}")
 
 
-def print_rows(rows_list):
+def print_rows(rows_list: list):
     for index, row in enumerate(rows_list):
         print_row(row, index)
 
