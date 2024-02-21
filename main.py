@@ -39,14 +39,14 @@ def step(row):
     return next_row
 
 
-def print_row(row):
-    for key, value in row.items():
-        print(f"{key}: {value}")
+def print_row(row, index):
+    print("")
+    print(f"Row {index}: {row}")
 
 
 def print_rows(rows_list):
-    for row in rows_list:
-        print_row(row)
+    for index, row in enumerate(rows_list):
+        print_row(row, index)
 
 
 def main():
