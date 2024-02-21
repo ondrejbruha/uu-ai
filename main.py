@@ -1,19 +1,36 @@
 import string
 import random
 import math
+from dotenv import load_dotenv
+import os
+import enums
 
+load_dotenv()
+
+config = {
+    "max_age": int(os.environ.get("MAX_AGE")),
+    "num_rows": int(os.environ.get("NUM_ROWS"))
+}
 rows = [
     {
-        "age": 10,
-        "id": "abcdefghijklmnop"
+        "age": 24,
+        "id": "aaaaaaaaaaaa",
+        "name": {
+            "first_name": "Ondřej",
+            "last_name": "Brůha"
+        }
     }
 ]
-num_rows = 100
-max_age = 100
 
 
 def get_random_age():
-    return math.floor(max_age * random.random()) + 1
+    return math.floor(config["max_age"] * random.random()) + 1
+
+
+def get_random_name():
+    last_name = random.choice(enums.enum_last_names)
+    first_name = random.choice(enums.enum_first_names)
+    return {"first_name": first_name, "last_name": last_name}
 
 
 def get_random_id(prev):
@@ -32,6 +49,8 @@ def step(row):
                 next_row[key] = get_random_age()
             elif key == "id":
                 next_row[key] = str(get_random_id(row[key]))
+            elif key == "name":
+                next_row[key] = get_random_name()
             else:
                 print(f"key {key} is invalid")
     else:
@@ -50,7 +69,7 @@ def print_rows(rows_list):
 
 
 def main():
-    for i in range(num_rows):
+    for i in range(config["num_rows"]):
         new_row = step(rows[i])
         rows.append(new_row)
     print_rows(rows)
