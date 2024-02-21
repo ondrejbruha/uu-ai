@@ -36,8 +36,10 @@ def get_random_name() -> dict:
 def get_random_id(prev: str) -> str:
     letters = string.ascii_lowercase
     rand_id = str(prev)
-    while id == prev:
+    while True:
         rand_id = ''.join(random.choice(letters) for _ in range(len(prev)))
+        if rand_id != prev:
+            break
     return rand_id
 
 
