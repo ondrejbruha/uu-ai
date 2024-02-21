@@ -8,10 +8,12 @@ rows = [
         "id": "abcdefghijklmnop"
     }
 ]
+num_rows = 100
+max_age = 100
 
 
 def get_random_age():
-    return math.floor(100 * random.random()) + 1
+    return math.floor(max_age * random.random()) + 1
 
 
 def get_random_id(prev):
@@ -48,7 +50,7 @@ def print_rows(rows_list):
 
 
 def main():
-    for i in range(10):
+    for i in range(num_rows):
         new_row = step(rows[i])
         rows.append(new_row)
     print_rows(rows)
