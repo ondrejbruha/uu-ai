@@ -30,7 +30,7 @@ def main():
     for i in range(steps):
         population.append(step(population[i]))
     arr = np.array(population)
-    cv.normalize(arr, arr, 0, 255, cv.NORM_MINMAX)
+    arr = arr * 255
     cv.imwrite("output.png", arr)
 
 
