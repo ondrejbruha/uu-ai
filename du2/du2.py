@@ -39,7 +39,10 @@ class Population:
                     if agent.type == other.type:
                         same_agents += 1
                     all_agents += 1
-            agent.rat = same_agents / all_agents
+            if all_agents == 0:
+                agent.rat = 1
+            else:
+                agent.rat = same_agents / all_agents
 
     def chose(self, tol):
         arr = []
@@ -92,17 +95,18 @@ def plot(popul, indx):
 
 
 if __name__ == "__main__":
-    pop = Population(50, 600, 10, 0.5)
-    iters = 1000
+    pop = Population(40, 1000, 3, 0.6)
+    iters = 3000
     pop.initialize()
     pop.rate()
     pop.step()
     counts = []
     for i in range(iters):
+        print(i)
         pop.rate()
         pop.step()
         counts.append(pop.count)
-        if i % 10 == 0:
+        if i % 100 == 0:
             plot(pop, i)
     plot(pop, iters - 1)
     plt.plot(counts)

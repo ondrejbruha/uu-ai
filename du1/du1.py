@@ -17,7 +17,7 @@ def generate_random_population(num):
 
 def step(prev):
     plus = []
-    num = random.randint(-5, 5)
+    num = random.randint(-2, 2)
     for i in range(len(prev)):
         if i < len(prev) - num:
             plus.append(prev[i] * prev[i + num])
