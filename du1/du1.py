@@ -1,26 +1,28 @@
 import random
 import numpy as np
 import cv2 as cv
+import math
 
 
 def generate_random_population(num):
     population = []
     for i in range(num):
-        random_number = random.randint(1, 2)
-        if i % random_number == 0:
-            population.append(1)
-        else:
-            population.append(0)
+        random_number = 1##random.randint(0, 1)
+        population.append(random_number)
+    population[math.floor(num/2)] = 0
+    population[num - 1] = 0
+    population[0] = 0
     return population
 
 
 def step(prev):
     plus = []
+    num = random.randint(-5, 5)
     for i in range(len(prev)):
-        if i < len(prev) - 1:
-            plus.append(prev[i] * prev[i + 1])
+        if i < len(prev) - num:
+            plus.append(prev[i] * prev[i + num])
         else:
-            plus.append(prev[i] * prev[0])
+            plus.append(prev[i] * prev[num])
     return plus
 
 
