@@ -56,8 +56,8 @@ class Population:
     def step(self):
         x = None
         y = None
-        self.count = 0
         while True:
+            self.count = 0
             x = random.randint(0, self.size - 1)
             y = random.randint(0, self.size - 1)
             is_free = True
@@ -95,8 +95,8 @@ def plot(popul, indx):
 
 
 if __name__ == "__main__":
-    pop = Population(40, 1000, 3, 0.6)
-    iters = 3000
+    pop = Population(20, 300, 3, 0.6)
+    iters = 800
     pop.initialize()
     pop.rate()
     pop.step()
