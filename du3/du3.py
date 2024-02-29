@@ -37,30 +37,33 @@ def coloring(g: nx.Graph, color_num: int, steps: int):
         for _ in g.nodes():
             node_colors.append(random.choice(colors))
         is_valid = is_coloring(g, node_colors)
+        if is_valid and i < steps:
+            val = coloring(g, color_num - 1, steps)
+            node_colors = val["colors"]
         if is_valid:
             break
-
+    color_dict = {}
+    for col in node_colors:
+        color_dict[col] = col
+    count = len(color_dict.keys())
     return {
         "colors": node_colors,
-        "is_valid": is_valid
+        "is_valid": is_valid,
+        "color_dict": color_dict,
+        "count": count
     }
 
 
 def main():
     colmap = ['red', 'green', 'blue', 'black', 'white', 'yellow', 'gray', 'pink', 'purple',
-              'orange']  # jak prevest cisla barev na barvy
-    g = nx.Graph()
-    g.add_nodes_from([0, 1, 2, 3])
-    g.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 0)])
+              'orange']
     g = nx.erdos_renyi_graph(20, 0.5)
-    res = coloring(g, len(colmap), 10000)
+    res = coloring(g, len(colmap), 100000)
     print(res)
-    colmap = ['red', 'green', 'blue', 'black', 'white', 'yellow', 'gray', 'pink', 'purple',
-              'orange']  # jak prevest cisla barev na barvy
     colors = [colmap[c] for c in res["colors"]]
     nx.draw(g, node_color=colors, with_labels=True)
     plt.draw()
-    plt.show()
+    plt.savefig("coloring.png")
 
 
 if __name__ == "__main__":
