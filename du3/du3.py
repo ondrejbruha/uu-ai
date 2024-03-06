@@ -38,7 +38,7 @@ def coloring(g: nx.Graph, color_num: int, steps: int):
             node_colors.append(random.choice(colors))
         is_valid = is_coloring(g, node_colors)
         if is_valid and i < steps:
-            val = coloring(g, color_num - 1, steps)
+            val = coloring(g, color_num - 1, steps - i)
             if val["is_valid"]:
                 node_colors = val["colors"]
         if is_valid:
@@ -55,14 +55,23 @@ def coloring(g: nx.Graph, color_num: int, steps: int):
     }
 
 
+def get_color():
+    symbols = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+    color = "#"
+    for i in range(6):
+        color.join(random.choice(symbols))
+    return color
+
+
 def main():
-    colmap = ['red', 'green', 'blue', 'black', 'white', 'yellow', 'gray', 'pink', 'purple',
-              'orange']
-    g = readdimacs("flat300_28_0.col.txt")##nx.erdos_renyi_graph(20, 0.5)
-    res = coloring(g, len(colmap), 10000)
-    print(res)
-    colors = [colmap[c] for c in res["colors"]]
-    nx.draw(g, node_color=colors, with_labels=True)
+    num_colors = 2500
+    g = readdimacs("r250.5.col.txt") ##nx.erdos_renyi_graph(20, 0.5) ##readdimacs("r250.5.col.txt")  ##nx.erdos_renyi_graph(20, 0.5)
+    res = coloring(g, num_colors, 100000)
+    print("Colors: " + str(res["colors"]))
+    print("Color Dict: " + str(res["color_dict"]))
+    print("Is Valid: " + str(res["is_valid"]))
+    print("Count: " + str(res["count"]))
+    nx.draw(g, with_labels=True)
     plt.draw()
     plt.savefig("coloring.png")
 
