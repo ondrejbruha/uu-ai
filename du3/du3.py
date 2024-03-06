@@ -39,7 +39,8 @@ def coloring(g: nx.Graph, color_num: int, steps: int):
         is_valid = is_coloring(g, node_colors)
         if is_valid and i < steps:
             val = coloring(g, color_num - 1, steps)
-            node_colors = val["colors"]
+            if val["is_valid"]:
+                node_colors = val["colors"]
         if is_valid:
             break
     color_dict = {}
@@ -57,8 +58,8 @@ def coloring(g: nx.Graph, color_num: int, steps: int):
 def main():
     colmap = ['red', 'green', 'blue', 'black', 'white', 'yellow', 'gray', 'pink', 'purple',
               'orange']
-    g = nx.erdos_renyi_graph(20, 0.5)
-    res = coloring(g, len(colmap), 100000)
+    g = readdimacs("flat300_28_0.col.txt")##nx.erdos_renyi_graph(20, 0.5)
+    res = coloring(g, len(colmap), 10000)
     print(res)
     colors = [colmap[c] for c in res["colors"]]
     nx.draw(g, node_color=colors, with_labels=True)
